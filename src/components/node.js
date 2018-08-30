@@ -17,12 +17,13 @@ export class Node extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.id
+            key: props.nodeKey
         };
     }
 
     move = (e) =>  {        
         this.setState(e);
+        this.props.updateLocation(this.state.key, e.x, e.y);
     }
 
     render() {
@@ -32,7 +33,7 @@ export class Node extends React.Component {
                 <Card id="cardX" style={{width: "240px"}}>
                     <CardContent>
                         <Typography variant="headline">
-                            Node {this.props.id}
+                            Node {this.state.key}
                         </Typography>
                         <Typography>
                             Node Item
