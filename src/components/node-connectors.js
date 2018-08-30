@@ -9,21 +9,16 @@ export class NodeConnectors extends React.Component {
 
     componentDidUpdate() {        
         if(this.props.canvasRef) {
-
             var context = this.canvasRef.current.getContext('2d');    
             context.clearRect(0, 0, this.canvasRef.current.width, this.canvasRef.current.height);
             
-            var connections = this.props.nodeConnections;
+            var connections = this.props.nodeItemConnections;
             var i;
-            for (i = 0; i < connections.length; i++) {                
-                this.drawLineXY(connections[i].nodeFrom,connections[i].nodeTo);
+            for (i = 0; i < connections.length; i++) {
+                if(connections[i].nodeTo) {
+                    this.drawLineXY(connections[i].nodeFrom,connections[i].nodeTo);
+                }                
             }
-        }
-    }
-
-    getNode(id) {
-        if(this.props.nodes) {
-            return this.props.nodes[id];
         }
     }
 
@@ -34,9 +29,23 @@ export class NodeConnectors extends React.Component {
         if(fromNode && toNode) {
             var context = this.canvasRef.current.getContext('2d');    
             context.beginPath();
-            context.moveTo(fromNode.location.x, fromNode.location.y);
-            context.lineTo(toNode.location.x, toNode.location.y);
+            context.moveTo(fromNode.x, fromNode.y);
+            context.lineTo(toNode.x, toNode.y);
             context.stroke();
+        }
+    }
+
+    getNode(id) {
+        if(this.props.nodeItems) {            
+            const nodes = this.props.nodeItems;
+            const len = nodes.length;
+                    
+            var i;
+            for (i = 0; i < len; i++) { 
+                if(nodes[i].id === id) {    
+                    return nodes[i];
+                }
+            }   
         }
     }
 
